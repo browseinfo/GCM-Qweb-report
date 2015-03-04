@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report id="gcm_invoice_menu"
+            string="Invoice"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            file="gcm_report.report_account_invoice"
+            name="gcm_report.report_account_invoice"
+        />
+
+        <report id="gcm_sale_menu"
+            string="Sales Receipt"
+            model="account.voucher"
+            report_type="qweb-pdf"
+            file="gcm_report.report_sales_receipt"
+            name="gcm_report.report_sales_receipt"
+        />
+
+     	<record id="gcm_invoice" model="report.paperformat">
+        	<field name="name">Invoice Custom</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">48</field>
+            <field name="margin_bottom">55</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">45</field>
+            <field name="dpi">90</field>
+        </record>
+
+
+        <record id="gcm_invoice_menu" model="ir.actions.report.xml">
+		    <field name="paperformat_id" ref="gcm_invoice"/>
+		</record>
+
+     	<record id="gcm_sale_receipt" model="report.paperformat">
+        	<field name="name">Sale Receipt Custom</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">48</field>
+            <field name="margin_bottom">55</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">45</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="gcm_sale_menu" model="ir.actions.report.xml">
+		    <field name="paperformat_id" ref="gcm_sale_receipt"/>
+		</record>
+    </data>
+</openerp>

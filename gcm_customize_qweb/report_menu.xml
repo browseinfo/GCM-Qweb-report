@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <report id="gcm_performa_menu_id" 
+            string="Proforma Invoice" 
+            model="account.invoice"
+            report_type="qweb-pdf" 
+            file="gcm_customize_qweb.proforma_invoice"
+            name="gcm_customize_qweb.proforma_invoice" 
+        />
+        
+        <report id="gcm_purchase_menu_id" 
+            string="PURCHASE ORDER" 
+            model="purchase.order"
+            report_type="qweb-pdf" 
+            file="gcm_customize_qweb.purchase_order"
+            name="gcm_customize_qweb.purchase_order" 
+        />
+
+        <report id="gcm_deliver_menu_id" 
+            string="Delivery Order" 
+            model="stock.picking"
+            report_type="qweb-pdf" 
+            file="gcm_customize_qweb.deliver_order"
+            name="gcm_customize_qweb.deliver_order" 
+        />
+        
+        <report id="gcm_sale_menu_id" 
+            string="Quotation Order" 
+            model="sale.order"
+            report_type="qweb-pdf" 
+            file="gcm_customize_qweb.sale_order"
+            name="gcm_customize_qweb.sale_order" 
+        />
+            
+    </data>
+</openerp>

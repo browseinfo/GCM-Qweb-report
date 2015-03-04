@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <template id="gcm_layout">
+	        <!-- Multicompany -->
+	        <t t-if="o and 'company_id' in o">
+		        <t t-set="company" t-value="o.company_id"></t>
+	        </t>
+	        <t t-if="not o or not 'company_id' in o">
+		        <t t-set="company" t-value="res_company"></t>
+	        </t>
+
+	        <t t-call="gcm_customize_qweb.gcm_custom_header" />
+	        <t t-raw="0" />
+	        <t t-call="gcm_customize_qweb.gcm_custom_footer" />
+        </template>
+
+	    <template id="gcm_custom_header">
+		    <div class="header">
+		        <t t-foreach="docs" t-as="o">
+		            <div class="col-xs-10" style="font-size:24px;">
+			            <span t-field="company.name"></span>
+		            </div>
+			        <table style="font-size:16px;">
+				        <tr>
+					        <td class="col-xs-6">
+						        <table>
+							        <tr>
+								        <td><t t-if="company.street"><span style="float:left;" t-field="company.street"/></t></td>
+							        </tr>
+							        <tr>
+								        <td>
+								            <t t-if="company.street2"><span style="float:left;" t-field="company.street2"></span><font color="white">.</font></t>
+								            <t t-if="company.country_id"><span t-field="company.country_id.name"/>-<span t-field="company.zip"></span></t>
+								         </td>
+							        </tr>
+							        <tr>
+								        <td>
+								            <span>Tel: <t t-if="company.phone"><span t-field="company.phone"/></t></span>
+								            <span>Fax. <t t-if="company.fax"><span t-field="company.fax"/></t></span>
+								        </td>
+							        </tr>
+							        <tr>
+								        <td>Email: <t t-if="company.email"><span t-field="company.email"/></t></td>
+							        </tr>
+							        <tr>
+								        <td>Reg No. <t t-if="company.company_registry"><span t-field="company.company_registry"/></t></td>
+							        </tr>
+							        <tr>
+								        <td><span>GST Reg No. <t t-if="company.vat"><span t-field="company.vat"/></t></span></td>
+							        </tr>
+						        </table>
+					        </td>
+					        <td class="col-xs-2"><span><font color="white">.</font></span></td>
+					        <td class="col-xs-4" style="font-size:18px;">
+						        <table style="font-size:18px;">
+							        <tr>
+							            <span t-if="o.state in ['draft','open','paid']">
+								            <td><span style="margin-left:60px;"><b>INVOICE</b></span></td>
+								        </span>
+								        <span t-if="o.state in ['proforma','proforma2']">
+								            <td><span style="margin-left:60px;"><b>PROFORMA INVOICE</b></span></td>
+								        </span>
+							        </tr>
+							        <tr>
+								        <td><b><span style="margin-left:60px;">No. </span><span style="margin-left:10px;" t-field="o.number"/></b></td>
+							        </tr>
+							        <tr>
+								        <td><b><span style="margin-left:60px;">Date </span><span style="margin-left:10px;" t-esc="get_date(o.date_invoice)"/></b></td>
+							        </tr>
+							        <tr>
+								        <td style="height:3px"><span><font color="white">.</font></span></td>
+							        </tr>
+							        <tr>
+								        <td>
+									        <ul class="list-inline" style="font-size:16px;margin-left:60px;">
+										        <li>PAGE:</li>
+										        <li><span class="page"/></li>
+										        <li>OF</li>
+										        <li><span class="topage"/></li>
+									        </ul>
+								        </td>
+							        </tr>
+						        </table>
+					        </td>
+				        </tr>
+			        </table>
+			    </t>
+		    </div>
+	    </template>
+	
+        <template id="gcm_custom_footer">
+		    <div class="footer">
+		        <div style="border-top: 1px solid black;">
+		            <div class="row">
+		                <div class="col-xs-5">
+		                    <table>
+		                        <tr><td width="9%">Note1.</td><td width="91%">a cheque should be crossed and made payble to <b>Golden Cycle Marketing Pte Ltd</b></td></tr>
+		                        <tr><td class="text-right" width="8%">2.</td><td>invoice not paid within the payment terms granted will carry interest rate of</td></tr>
+		                    </table>
+		                </div>
+		                <div class="col-xs-3">
+		                    <table>
+		                        <tr><td class="text_right">Received the above goods</td></tr>
+		                        <tr><td class="text_right">in good order and condition</td></tr>
+		                    </table>
+		                </div>
+		                <div class="col-xs-4">
+		                    <table>
+		                        <tr><td class="text_right"><b>For Golden Cycle Marketing Pte Ltd</b></td></tr>
+		                    </table>
+		                    <table style="margin-top:50px;">
+		                        <tr><td style="border-top: 1px solid black;" class="text-center">Authorised Signature &amp; Stamp</td></tr>
+		                    </table>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+	    </template>
+    </data>
+</openerp>

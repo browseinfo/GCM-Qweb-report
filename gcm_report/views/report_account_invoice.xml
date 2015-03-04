@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="report_account_invoice">
+		    <t t-call="report.html_container">
+			    <t t-call="report.gcm_report_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-xs-5"/>
+                                <div class="col-xs-3">
+                                    <table style="font-size:28px;color:#170B3B">
+                                        <tr class="text-center"><td><b>TAX INVOICE</b></td></tr>
+                                    </table>
+                                </div>
+                                <div class="col-xs-1"/>
+                                <div class="col-xs-3">
+                                    <table style="font-size:18px;color:#170B3B;margin-top:10px;margin-left:30px">
+                                        <tr class="text-right"><td><b>NO:</b><span style="color:black" t-field="o.number"/></td></tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <table width="100%" style="font-size:16px;">
+                                <tr>
+                                    <td width="49%">
+                                        <table width="100%" class="main_border">
+                                            <tr style="color:#170B3B">
+                                                <td><span style="margin-left:10px;">BILL TO:</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <address style="margin-left:10px;" t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}' />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="margin-left:10px;">TEL: <span t-field="o.partner_id.phone"/> FAX: <span t-field="o.partner_id.fax"/></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td width="2%"/>
+                                    <td width="49%">
+                                        <table width="100%" class="main_border">
+                                            <tr style="color:#170B3B">
+                                                <td><span style="margin-left:10px;">SHIP TO:</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <address style="margin-left:10px;" t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}' />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="margin-left:10px;">TEL: <span t-field="o.partner_id.phone"/> FAX: <span t-field="o.partner_id.fax"/></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br/>
+                            <table width="100%" class="table table-bordered" style="border:#708090 2px solid;font-size:14px;">
+                                <thead style="color:white;background:#708090;">
+	                                <tr>
+	                                    <th class="text-center" style="border-right:white 2px solid;">SALESMAN</th>
+	                                    <th class="text-center" style="border-right:white 2px solid;">CUSTOMER ID</th>
+	                                    <th class="text-center" style="border-right:white 2px solid;">CONTACT PERSON</th>
+	                                    <th class="text-center" style="border-right:white 2px solid;">D/O NUMBER</th>
+	                                    <th class="text-center" style="border-right:white 2px solid;">P/O NUMBER</th>
+	                                    <th class="text-center" style="border-right:white 2px solid;">TERMS</th>
+	                                    <th class="text-center">DATE</th>
+	                                </tr>
+	                            </thead>
+                                <tbody style="background:#DCDCDC;font-size:16px;">
+                                    <tr>
+                                        <td class="text-center" style="border-right:#708090 2px solid;">
+                                            <span t-esc="o.user_id.name"/>
+                                        </td>
+                                        <td class="text-center" style="border-right:#708090 2px solid;">
+                                             <span t-esc="o.partner_id.id"/>
+                                        </td>
+                                        <td class="text-center l_border" style="border-right:#708090 2px solid;">
+                                             <span t-esc="o.user_id.name"/>
+                                        </td>
+                                        <td class="text-center" style="border-right:#708090 2px solid;">
+                                            <t t-if="o.origin">
+                                                <span t-esc="get_delivery_number(o.origin)"/>
+                                            </t>
+                                        </td>
+                                        <td class="text-center" style="border-right:#708090 2px solid;">
+                                             <span t-field="o.origin"/>
+                                        </td>
+                                        <td class="text-center" style="border-right:#708090 2px solid;">
+                                             <span t-field="o.payment_term.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                             <span t-esc="get_date(o.date_invoice)"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-condensed" width="100%" style="border:#708090 2px solid;font-size:14px;">
+                                <thead style="color:white;background:#708090">
+			                        <tr>
+			                            <th width="15%" class="text-center" style="border-right:white 2px solid;">QUANTITY</th>
+			                            <th width="5%" class="text-center" style="border-right:white 2px solid;">W/H</th>
+			                            <th width="50%" class="text-center" style="border-right:white 2px solid;">PARTICULARS</th>
+			                            <th width="15%" class="text-center" style="border-right:white 2px solid;">UNIT PRICE</th>
+			                            <th width="15%" class="text-center">AMOUNT</th>
+			                        </tr>
+			                    </thead>
+			                    <tbody style="background:#DCDCDC;font-size:16px;" height="220px">
+                                    <tr height="30px" t-foreach="o.invoice_line" t-as="l">
+                                        <td class="text-center" style="border-right:#708090 2px solid;">
+                                            <span t-field="l.quantity"/>
+                                            <span t-field="l.uos_id"  groups="product.group_uom"/>
+                                        </td>
+                                        <td class="text-left" style="border-right:#708090 2px solid;">
+                                        </td>
+                                        <td class="text-left" style="border-right:#708090 2px solid;">
+                                            <span style="margin-left:10px" t-field="l.name"/>
+                                        </td>
+                                        <td class="text-right" style="border-right:#708090 2px solid;">
+                                            <span t-field="o.currency_id.symbol"/>
+                                            <span t-field="l.price_unit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="o.currency_id.symbol"/>
+                                            <span t-field="l.price_subtotal"/>
+                                            <font color="white">.</font>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="30px">
+                                        <td style="border-right:#708090 2px solid;"/>
+                                        <td style="border-right:#708090 2px solid;"/>
+                                        <td style="border-right:#708090 2px solid;"/>
+                                        <td class="text-center" style="border-right:#708090 2px solid;font-size:16px;border-top:#708090 2px solid;"><b>SUB TOTAL:</b></td>
+                                        <td class="text-right" style="border-top:#708090 2px solid;">
+                                            <span t-field="o.currency_id.symbol"/><font color="white"> </font>
+                                            <span t-field="o.amount_untaxed"/><font color="white">.</font>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="30px">
+                                        <td style="border-right:#708090 2px solid;"/>
+                                        <td style="border-right:#708090 2px solid;"/>
+                                        <td style="border-right:#708090 2px solid;">
+                                            <span style="margin-left:10px" t-esc="num2word(o.amount_total)"/></td>
+                                        <td class="text-left" style="border-right:#708090 2px solid;">
+                                            <span style="margin-left:10px;"><b>:</b></span>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="o.currency_id.symbol"/><font color="white"> </font>
+                                            <span t-field="o.amount_tax"/><font color="white">.</font>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table width="100%" style="border:white 2px solid">
+                                <tr width="100%">
+                                    <td width="40%"/><td width="5%"/><td width="25%"/><td width="15%"/><td width="15%"/>
+                                </tr>
+                            </table>
+
+                            <table width="100%">
+                                <tr width="100%">
+                                    <td width="70%"/>
+                                    <td class="text-center" width="15%" style="border:#708090 2px solid;font-size:18px;background:#708090; color:white;"><span style="margin-top:10px"><strong>TOTAL DUE</strong></span></td>
+                                    <td class="text-right" width="15%" style="border:#708090 2px solid;font-size:18px;background:#DCDCDC">
+                                        <strong>
+                                            <span t-field="o.currency_id.symbol"/><font color="white"> </font>
+                                            <span t-field="o.amount_total"/><font color="white">.</font>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+		</template>
+	</data>
+</openerp>

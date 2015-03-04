@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="deliver_order">
+		    <t t-call="report.html_container">
+			    <t t-call="gcm_customize_qweb.gcm_deliver_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <br/>
+                            <table width="100%" style="font-size:16px;">
+                                <tr>
+                                    <td width="49%">
+                                        <table width="100%">
+                                            <tr>
+                                                <td><span style="margin-left:10px;">Bill To:</span></td>
+                                            </tr>
+                                            <tr style="border:1px solid black;">
+                                                <td>
+                                                    <address style="margin-left:10px;" t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}' />
+                                                    <p><span style="margin-left:10px;">TEL: <span t-field="o.partner_id.phone"/> FAX: <span t-field="o.partner_id.fax"/></span></p>
+                                                </td>
+                                            </tr>  
+                                        </table>
+                                    </td>
+                                    <td width="2%"/>
+                                    <td width="49%">
+                                        <table width="100%">
+                                            <tr>
+                                                <td><span style="margin-left:10px;">Ship To:</span></td>
+                                            </tr>
+                                            <tr style="border:1px solid black;">
+                                                <td>
+                                                    <address style="margin-left:10px;" t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}' />
+                                                    <p><span style="margin-left:10px;">TEL: <span t-field="o.partner_id.phone"/> FAX: <span t-field="o.partner_id.fax"/></span></p>
+                                                </td>
+                                            </tr>  
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <br/>
+                            <table class="table table-bordered" style="font-size:16px;">
+			                    <thead>
+			                        <tr>
+			                            <th class="text-center">Salesman</th>
+			                            <th class="text-center">Customer ID</th>
+			                            <th class="text-center">Contact Person</th>
+			                            <th class="text-center">D/O No.</th>
+			                            <th class="text-center">P/O No.</th>
+			                            <th class="text-center">Currency</th>
+			                            <th class="text-center">Terms</th>
+			                        </tr>
+			                    </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-esc="get_salesman(o)"/>
+                                        </td>
+                                        <td class="text-center">
+                                             <span t-esc="o.partner_id.id"/>
+                                        </td>
+                                        <td class="text-center">
+                                             <span t-esc="o.owner_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="o.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="o.origin"/>
+                                        </td>
+                                        <td class="text-center">
+                                             <span t-field="o.partner_id.company_id.currency_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                             <span t-esc="get_payment_term(o)"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <table class="table table-condensed" style="font-size:16px;">
+			                    <thead>
+			                        <tr>
+			                            <th width="10%" class="text-center">L/N</th>
+			                            <th width="50%" class="text-left">Product and Description</th>
+			                            <th width="20%" class="text-center">QTY</th>
+			                            <th width="20%" class="text-center">UOM</th>
+			                        </tr>
+			                    </thead>
+                                <tbody>
+                                    <tr t-foreach="o.move_lines" t-as="l">
+                                        <td class="text-center">
+                                            <span t-esc="get_index()"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="l.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="l.product_uom_qty"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.product_uom.name"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+			                </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+		</template>
+	</data>
+</openerp>

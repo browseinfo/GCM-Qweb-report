@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <template id="layout" inherit_id="web.layout" primary="True">
+        <!-- Add report attributes -->
+        <xpath expr="//html" position="attributes">
+            <attribute name="t-att-data-report-margin-top">data_report_margin_top if data_report_margin_top else None</attribute>
+            <attribute name="t-att-data-report-header-spacing">data_report_header_spacing if data_report_header_spacing else None</attribute>
+            <attribute name="t-att-data-report-dpi">data_report_dpi if data_report_dpi else None</attribute>
+        </xpath>
+        <!-- Add report style -->
+        <xpath expr="//head" position="inside">
+            <link href="/web/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+            <link href="/website/static/src/css/website.css" rel="stylesheet"/>
+            <link href="/web/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet"/>
+            <style type="text/css">
+                <t t-call="report.style"/>
+            </style>
+        </xpath>
+        <!-- Remove conflicting style -->
+        <xpath expr="//head/link[@href='/web/static/src/css/full.css']" position="replace"></xpath>
+    </template>
+
+    <template id="html_container">
+        <t t-set="body_classname" t-value="'container'"/>
+        <t t-call="gcm_report.layout">
+            <t t-raw="0"/>
+        </t>
+    </template>
+
+    <template id="style">
+        body {
+            color: #000 !important;
+        }
+        .border-black td {
+            border-top: 1px solid black !important;
+        }
+        .table-condensed > thead > tr > th {
+            border-bottom: 1px solid black !important;
+        }
+        .zero_min_height {
+            min-height: 0px !important;
+        }
+    </template>
+
+    <template id="report.gcm_report_layout">
+	    <!-- Multicompany -->
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"></t>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"></t>
+        </t>
+
+        <t t-call="gcm_report.gcm_layout_header" />
+        <t t-raw="0" />
+        <t t-call="gcm_report.gcm_layout_footer" />
+    </template>
+
+    <template id="gcm_layout_header">
+        <div class="header">
+            <t t-foreach="docs" t-as="o">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <img id="full-screen-background-image" style="width:130px;height:150px;" src="/gcm_report/static/src/img/logo.png"/>
+                    </div>
+                    <div class="col-xs-6" >
+                        <table style="font-size:16px;color:#170B3B">
+                            <tr><td><img id="full-screen-background-image" style="width:300px;height:40px;" src="/gcm_report/static/src/img/line_logo.png"/></td></tr>
+                             <tr><td><t t-if="company.name"><b><span style="font-size:24px;" t-field="company.name"/></b></t></td></tr>
+                            <tr>
+                                <td>
+                                    <span t-if="company.street"><span t-field="company.street"/></span> ,
+                                    <span t-if="company.street2"><span t-field="company.street2"/></span>
+                                    <span t-field="company.country_id.name"/>-<span t-field="company.zip"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>Tel: <t t-if="company.phone"><span t-field="company.phone"/></t></span>
+                                    <span>Fax. <t t-if="company.fax"><span t-field="company.fax"/></t></span>
+                                </td>
+                            </tr>
+                            <tr><td>Email: <t t-if="company.email"><span t-field="company.email"/></t></td></tr>
+                            <tr><td>Website: <t t-if="company.email"><span t-field="company.website"/></t></td></tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-4">
+                        <table style="font-size:16px;color:#170B3B">
+                            <tr>
+                                <img id="full-screen-background-image" style="width:90px;height:90px;margin-left:170px" src="/gcm_report/static/src/img/3m_logo.png"/>
+                            </tr>
+				            <tr>
+					            <td><span style="margin-left:70px">Reg No.</span>
+					                <span t-field="company.company_registry"/></td>
+				            </tr>
+				            <tr>
+					            <td><span style="margin-left:15px"><b>GST Reg No:</b></span>
+					                <span t-field="company.vat"/></td>
+				            </tr>
+			            </table>
+                    </div>
+                </div>
+	        </t>
+        </div>
+    </template>
+
+    <template id="gcm_layout_footer">
+		<div class="footer">
+			<t t-foreach="docs" t-as="o">
+	        	<table width="100%">
+		        	<tr width="100%">
+		            	<td width="5%" style="font-size:14px;color:#170B3B">NOTE:1.</td>
+		                <td width="33%" style="font-size:14px;color:#170B3B">Cheques should be made payable to
+		                    <b><span t-field="company.name"/></b> and crossed <b>"A/C Payee Only".</b></td>
+		                <td width="5%"/>
+		                <td width="23%" style="font-size:14px;color:#170B3B">Received the above Goods In Good Order &amp; Condition.</td>
+		                <td width="34%"/>
+		            </tr>
+	        	</table>
+
+	      		<br/>
+	            <table width="100%">
+	            	<tr width="100%" height="10px">
+	            		<td width="6%" class="text-right" style="font-size:14px;color:#170B3B">2.</td>
+	                   	<td width="33%" style="font-size:14px;color:#170B3B">Invoices not paid within the payment terms granted will carry interest at the rate of 1.5% per month until settled.</td>
+	                   	<td width="61%"/>
+	                </tr>
+	             </table>
+
+	             <br/>
+	             <table width="100%">
+	             	<tr width="100%" height="10px">
+	                	<td width="6%" class="text-right" style="font-size:14px;color:#170B3B">3.</td>
+	                    <td width="33%" style="font-size:14px;color:#170B3B">Deposit paid are not refundable.</td>
+	                    <td width="61%"/>
+	                 </tr>
+	             </table>
+
+	            <table width="100%">
+	            	<tr width="100%" height="10px">
+	                	<td width="35%"/>
+	                    <td width="27%" style="font-size:16px;color:#170B3B;border-top:1px solid black">Co. Stamp &amp; Signature</td>
+	                    <td width="6%"></td>
+	                    <td width="25%" style="font-size:16px;color:#170B3B;border-top:1px solid black">For <b><span t-field="company.name"/></b></td>
+	                    <td width="7%"/>
+	                </tr>
+	            </table>
+	     	</t>
+	    </div>
+    </template>
+
+    <template id="report.minimal_layout">
+        <t t-raw="'&lt;base href=%s&gt;' % base_url"/>
+        &lt;!DOCTYPE html&gt;
+        <html style="height: 0;">
+            <head>
+                <link href="/report/static/src/css/reset.min.css" rel="stylesheet"/>
+                <link href="/web/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+                <link href="/gcm_report/static/src/css/style.css" rel="stylesheet"/>
+                <link href="/website/static/src/css/website.css" rel="stylesheet"/>
+                <link href="/web/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet"/>
+                <style type='text/css'><t t-raw="css"/></style>
+                <t t-if="subst is True">
+                    <script src='/report/static/src/js/subst.js'></script>
+                </t>
+            </head>
+            <body class="container" onload="subst()">
+                <t t-raw="body"/>
+            </body>
+        </html>
+    </template>
+
+</data>
+</openerp>

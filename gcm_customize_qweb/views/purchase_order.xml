@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="purchase_order">
+		    <t t-call="report.html_container">
+			    <t t-call="gcm_customize_qweb.gcm_purchse_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <br/>
+                            <table width="100%" style="font-size:16px;">
+                                <tr>
+                                    <td width="49%">
+                                        <table width="100%">
+                                            <tr>
+                                                <td><span style="margin-left:10px;">Vendor:</span></td>
+                                            </tr>
+                                            <tr style="border:1px solid black;">
+                                                <td>
+                                                    <table>
+                                                        <tr><td><span t-if="o.partner_id.name" style="height:10px;margin-left:10px;"><span t-field="o.partner_id.name"/></span></td></tr>
+                                                        <tr><td><span t-if="o.partner_id.street" style="height:10px;margin-left:10px;"><span t-field="o.partner_id.street"/></span></td></tr>
+                                                        <tr><td><span t-field="o.partner_id.country_id.name" style="height:10px;margin-left:10px;">-<span t-field="o.partner_id.zip"/></span></td></tr>
+                                                        <tr><td><span style="margin-left:10px;">TEL:<span t-field="o.partner_id.phone"/> FAX:<span t-field="o.partner_id.fax"/></span></td></tr>                                           
+                                                    </table>     
+                                                </td>
+                                            </tr>  
+                                        </table>
+                                    </td>
+                                    <td width="2%"/>
+                                    <td width="49%">
+                                        <table width="100%">
+                                            <tr>
+                                                <td><span style="margin-left:10px;">Ship To:</span></td>
+                                            </tr>
+                                            <tr style="border:1px solid black;">
+                                                <td>
+                                                    <table>
+                                                        <tr><td><span style="margin-left:10px;">INV No:<span style="height:10px;" t-field="o.name"/></span></td></tr> 
+                                                        <tr><td><span style="margin-left:10px;">AMT:<span style="height:10px;" t-field="o.amount_total"/></span></td></tr>                                           
+                                                        <tr><td><span style="margin-left:10px;">QTY:<span style="height:10px;" t-esc="get_total_qty(o)"/></span></td></tr> 
+                                                    </table>
+                                                    <br/>                                       
+                                                </td>
+                                            </tr>  
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        
+                            <br/>
+                            <table class="table table-condensed" style="font-size:16px;">
+			                    <thead>
+			                        <tr>
+			                            <th width="10%" class="text-center">L/N</th>
+			                            <th width="40%" class="text-left">Product and Description</th>
+			                            <th width="10%" class="text-center">QTY</th>
+			                            <th width="10%" class="text-center">UOM</th>
+			                            <th width="15%" class="text-right">Unit Price</th>
+			                            <th width="15%" class="text-right">Amount</th>
+			                        </tr>
+			                    </thead>
+                                <tbody>
+                                    <tr t-foreach="o.order_line" t-as="line">
+                                        <td class="text-center">
+                                            <span t-esc="get_index()"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="line.product_qty"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="line.product_uom.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.price_subtotal"
+                                                t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+			                </table>
+ 
+                            <div class="row" style="margin-top:550px;font-size:16px;">
+                                <div class="col-xs-9"/>
+			                    <div class="col-xs-3">
+			                        <table width="100%">
+                                        <tr>
+                                            <td width="50%" class="text-left"><strong>Sub-Total</strong></td>
+                                            <td width="50%" class="text-right">
+                                                <strong><span t-field="o.amount_untaxed"/></strong>
+                                            </td>
+                                        </tr>
+                                     </table>
+			                    </div>
+			                </div>
+			                <div class="row" style="font-size:16px;">
+			                    <div class="col-xs-4">CURRENCY : <span t-esc="o.currency_id.name"/></div>
+			                    <div class="col-xs-4">PAYMENT : <span t-esc="o.payment_term_id.name"/></div>
+			                    <div class="col-xs-1"/>
+			                    <div class="col-xs-3">
+			                        <table width="100%">
+                                        <tr>
+                                            <td width="50%" class="text-left"><strong>Gst 7%</strong></td>
+                                            <td width="50%" class="text-right">
+                                                <strong><span t-field="o.amount_tax"/></strong>
+                                            </td>
+                                        </tr>
+                                     </table>
+			                    </div>
+			                </div>			                
+			                <div class="row" style="font-size:16px;">
+			                    <div class="col-xs-9"/>
+			                    <div class="col-xs-3">
+			                        <table width="100%">
+                                        <tr>
+                                            <td width="60%" class="text-left"><strong>Total Amount</strong></td>
+                                            <td width="40%" class="text-right" style="border-top: 1px solid black;border-bottom: 1px solid;">
+                                                <strong><span t-field="o.amount_total"/></strong>
+                                            </td>
+                                        </tr>
+                                     </table>
+			                    </div>
+			                </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+		</template>
+	</data>
+</openerp>

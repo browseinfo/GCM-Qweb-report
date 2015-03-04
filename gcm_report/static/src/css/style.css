@@ -1,0 +1,12 @@
+.main_border{
+    border-left:1px solid;
+    border-right:1px solid;
+    border-top:1px solid;
+    border-bottom:1px solid;
+}
+.head_border{
+    border-left-color:#708090 2px solid;
+    border-right-color:#708090 2px solid;
+    border-top-color:#708090 2px solid;
+    border-bottom-color:#708090 2px solid;
+}
